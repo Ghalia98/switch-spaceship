@@ -1,0 +1,13 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: rgb(1, 1, 19);
+}
+main {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
