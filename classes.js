@@ -23,6 +23,9 @@ class Game {
 
 
     }
+    setup() {
+
+    }
     preload() {
         this.background.image = loadImage('assets/Background/Starfield 7 - 1024x1024.png')
         this.planet.planetImage = [{ src: loadImage('assets/Obstacles/Mars_Planet.png'), color: 'red' },
@@ -33,7 +36,8 @@ class Game {
         this.beam.image = loadImage('assets/Spaceship assets/07.png')
         // this.flame.image = loadImage('assets/bar/Flame_01.png')
         this.alien.image = [loadImage('assets/Obstacles/animated-ufo-image-0001.gif')]
-        this.shield.image = loadImage('assets/Spaceship assets/spr_shield.png')
+        this.shield.shieldImage = loadImage('assets/Spaceship assets/spr_shield.png')
+        this.noShieldImage = loadImage('assets/Spaceship assets/HD_transparent_picture.png')
         this.explosion.image = loadImage('assets/Spaceship assets/i_0012.png')
     }
     draw() {
@@ -102,17 +106,16 @@ class Game {
 
 
         if (keyIsDown(83)) {
-            this.shield.draw()
-            game.spaceship.isShieldOn = true;
+            // setInterval
+            if (!game.spaceship.isShieldOn) {
+                game.shield.draw()
+                game.shield.isShieldDrawn = true;
+                game.spaceship.isShieldOn = true;
+            }
 
-            // this.alienArr = this.alienArr.map(alien => {
-
-            // })
-            // add condition so that ufo disappears and add explosion effect
+            timeIt()
         }
-        // if (keyReleased(83)) {
-        //     loop()
-        // }
+
         console.log(game.alien.alienCollision)
         // console.log(game.spaceship.isShieldOn)
         if (game.spaceship.isShieldOn === false && game.alien.collision(game.shield.x, game.shield.y)) {
@@ -123,11 +126,12 @@ class Game {
             game.alien.alienCollision = false;
             game.explosion.draw()
             noLoop();
-
         }
+
 
         // console.log(game.alien.alienCollision)
     }
+
 
 }
 
@@ -251,17 +255,23 @@ class Alien {
 
 class Shield {
     constructor() {
-        this.image
+        this.shieldImage
+        this.noShieldImage
         this.width = 200;
         this.height = 200;
         this.x = 250 - this.width / 2 + 25
         this.y = 410;
+
     }
     draw() {
-        image(this.image, this.x, this.y, this.width, this.height)
+        if (!game.spaceship.isShieldimage) {
+            image(this.shieldImage, this.x, this.y, this.width, this.height)
+
+        }
+        else {
+            image(this.noShieldImage, this.x, this.y, this.width, this.height)
+        }
     }
-
-
 }
 
 class Explosion {
