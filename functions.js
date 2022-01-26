@@ -19,3 +19,8 @@ function keyPressed() {
     }
 
 }
+
+// function keyReleased() {
+//     if (keyCode === 83)
+//         loop()
+// }

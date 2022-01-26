@@ -1,6 +1,9 @@
 let randomIndex = 0
 const scoreText = document.querySelector('h4')
 let score = 0
+let currentAlienX = 0
+let currentAlienY = 0
+
 // class Game
 
 class Game {
@@ -8,13 +11,13 @@ class Game {
         this.background = new Background()
         this.planet = new Planet()
         this.spaceship = new Spaceship()
-        this.planetArr = []
-        this.alienArr = [];
-        this.score = 0
         this.beam = new Beam()
         this.alien = new Alien()
         this.shield = new Shield()
-
+        this.explosion = new Explosion()
+        this.planetArr = []
+        this.alienArr = [];
+        this.score = 0
 
 
 
@@ -29,8 +32,9 @@ class Game {
         this.spaceship.blueImage = loadImage('assets/Spaceship assets/Spaceship_02_NAVY BLUE.png')
         this.beam.image = loadImage('assets/Spaceship assets/07.png')
         // this.flame.image = loadImage('assets/bar/Flame_01.png')
-        this.alien.image = [loadImage('assets/Obstacles/flying-saucer-animated-4.gif')]
+        this.alien.image = [loadImage('assets/Obstacles/animated-ufo-image-0001.gif')]
         this.shield.image = loadImage('assets/Spaceship assets/spr_shield.png')
+        this.explosion.image = loadImage('assets/Spaceship assets/i_0012.png')
     }
     draw() {
         clear()
@@ -54,14 +58,15 @@ class Game {
             if (planet.y >= game.spaceship.y - game.spaceship.width / 2 + planet.width * 2) {
                 const index = planet.index
                 if (game.planet.planetImage[index].color === 'blue' && game.spaceship.isBlue) {
-                    score++
+                    score++;
                     scoreText.innerHTML = `<h4>Score: ${score}</h4>`
                 } else if (game.planet.planetImage[index].color === 'red' && !game.spaceship.isBlue) {
-                    score++
+                    score++;
                     scoreText.innerHTML = `<h4>Score:${score}</h4>`
                 }
                 else {
-                    // add end game condtion
+                    game.explosion.draw()
+                    noLoop()
                 }
                 return false;
             } else { return true }
@@ -73,22 +78,57 @@ class Game {
             game.spaceship.isExtracted = false;
         }
         // this.alien.draw()
-        if (frameCount % 1500 === 0) {
-            this.alienArr.push(new Alien(this.alien.image[0]))
+        if (frameCount % 500 === 0) {
+            this.alienArr.push(new Alien(this.alien.image[0], this.alien))
             //    remove elements from array when they're out of the screen
         }
         this.alienArr.forEach(function (alien) {
             // console.log(randomIndex)
             alien.draw()
+
         });
+        this.alienArr = this.alienArr.filter(alien => {
+            if (alien.collision(game.shield.x, game.shield.y) && !game.spaceship.isShieldOn) {
 
+                console.log(alien)
+                return false;
+            } else { return true }
 
+        })
         // add constraint for shild image 
         // set timer to remove shield
-        // if (keyIsDown(32) && dist) {
-        //     this.shield.draw()
+        game.spaceship.isShieldOn = false;
+        // game.alien.alienCollision = false;
+
+
+        if (keyIsDown(83)) {
+            this.shield.draw()
+            game.spaceship.isShieldOn = true;
+
+            // this.alienArr = this.alienArr.map(alien => {
+
+            // })
+            // add condition so that ufo disappears and add explosion effect
+        }
+        // if (keyReleased(83)) {
+        //     loop()
         // }
+        console.log(game.alien.alienCollision)
+        // console.log(game.spaceship.isShieldOn)
+        if (game.spaceship.isShieldOn === false && game.alien.collision(game.shield.x, game.shield.y)) {
+            game.alien.alienCollision = true;
+
+        }
+        if (game.alien.alienCollision) {
+            game.alien.alienCollision = false;
+            game.explosion.draw()
+            noLoop();
+
+        }
+
+        // console.log(game.alien.alienCollision)
     }
+
 }
 
 
@@ -121,6 +161,7 @@ class Spaceship {
         this.y = 400
         this.isBlue = false;
         this.isExtracted = false;
+        this.isShieldOn = false;
     }
     draw() {
         if (game.spaceship.isBlue) {
@@ -171,23 +212,42 @@ class Beam {
 }
 
 class Alien {
-    constructor(image) {
+    constructor(image, arr) {
         this.image = image;
-        this.width = 50;
-        this.height = 70;
-        this.x = 0
-        this.y = 350;
+        this.width = 100;
+        this.height = 100;
+        this.x = 0;
+        this.y = 300;
+        this.alienCollision = false;
+        this.arr = arr
     }
+
     draw() {
         this.x++;
+        currentAlienX = this.x++
+
         this.y++;
+        currentAlienY = this.y++
+
         if (this.y <= 300) {
             this.y = 350
         }
-
-        image(this.image, this.x, this.y, this.width, this.height)
+        image(this.image, currentAlienX, currentAlienY, this.width, this.height)
+    }
+    collision(x, y) {
+        if (dist(currentAlienX, currentAlienY, x, y) <= 48) {
+            return !this.alienCollision
+        }
+    }
+    resetCollision() {
+        this.alienCollision = false;
+    }
+    moveAway() {
+        currentAlienX -= 10
+        currentAlienY -= 10
     }
 }
+
 
 class Shield {
     constructor() {
@@ -195,6 +255,21 @@ class Shield {
         this.width = 200;
         this.height = 200;
         this.x = 250 - this.width / 2 + 25
+        this.y = 410;
+    }
+    draw() {
+        image(this.image, this.x, this.y, this.width, this.height)
+    }
+
+
+}
+
+class Explosion {
+    constructor() {
+        this.image
+        this.width = 200;
+        this.height = 200;
+        this.x = 250 - this.width / 2
         this.y = 410;
     }
     draw() {
