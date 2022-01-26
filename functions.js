@@ -1,18 +1,46 @@
 const game = new Game()
 let timer = 2
 let font;
+let mode;
+let stage = 0
 
-
+// stage 0 = splash screen
+//  stage 1 = game screen
+// stage 2 = lose screen
 function setup() {
-    createCanvas(550, 700)
+
+    createCanvas(550, windowHeight)
     game.setup();
     // setInterval(game.shield.draw(), 2000)
     font = loadFont('assets/tarrget-font/TarrgetGradientItalic-zzjG.otf')
+
 }
 function preload() {
     game.preload()
 }
 function draw() {
+    if (stage == 0) {
+        splashMode();
+    }
+    if (stage == 1) {
+        gameMode();
+    }
+    if (stage == 2) {
+        loseMode();
+    }
+}
+function splashMode() {
+    game.background.draw()
+    // background(0)
+    stroke('yellow')
+    noFill()
+    strokeWeight(1.5)
+    rect(width / 2 - 200, height / 2 - 200, 400, 400)
+    noStroke()
+
+}
+function gameMode() {
+    clear();
     game.draw()
     text(timer, width / 2, height / 2)
     textAlign(CENTER, CENTER);
@@ -23,7 +51,11 @@ function draw() {
     fill('white')
     textSize(35)
     textFont(font);
-    text("Score: " + score, 110, 40)
+    text("Score: " + score, 130, 40)
+
+}
+function loseMode() {
+
 }
 function keyPressed() {
     if (keyCode === 32) {
@@ -37,6 +69,9 @@ function keyPressed() {
         setTimeout(() => {
             game.spaceship.isShieldOn = false
         }, 1000)
+    }
+    if (keyCode === 32) {
+        stage = 1
     }
 }
 // function deactivateShield() {
@@ -56,3 +91,5 @@ function timeIt() {
         game.spaceship.isShieldOn = false;
     }
 }
+
+// Splash Screen

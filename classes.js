@@ -1,5 +1,4 @@
 let randomIndex = 0
-
 let score = 0
 let currentAlienX = 0
 let currentAlienY = 0
@@ -115,7 +114,13 @@ class Background {
         this.y = 0
     }
     draw() {
-        this.y += 3;
+        if (stage == 1) {
+            this.y += 3;
+        }
+        if (stage == 0) {
+            this.y++;
+        }
+
         image(this.image, this.x, this.y, width, height)
         image(this.image, this.x, this.y - height, width, height)
         if (this.y >= height) {
