@@ -19,6 +19,7 @@ class Game {
 
     }
     setup() {
+
     }
     preload() {
         this.background.image = loadImage('assets/Background/Starfield 7 - 1024x1024.png')
@@ -26,7 +27,7 @@ class Game {
         { src: loadImage('assets/Obstacles/blue_ball_01.png '), color: 'blue' }]
         this.spaceship.orangeImage = loadImage('assets/Spaceship assets/Spaceship_02_ORANGE.png')
         this.spaceship.blueImage = loadImage('assets/Spaceship assets//Spaceship_02_BLUE.png')
-        this.beam.image = loadImage('assets/Spaceship assets/07.png')
+        this.beam.image = loadImage('assets/Spaceship assets/electric-gif-transparent.gif')
         // this.flame.image = loadImage('assets/bar/Flame_01.png')
         this.alien.image = [loadImage('assets/Obstacles/animated-ufo-image-0001.gif')]
         this.shield.shieldImage = loadImage('assets/Spaceship assets/spr_shield.png')
@@ -61,15 +62,16 @@ class Game {
 
                 }
                 else {
-                    this.explosion.draw()
 
+                    setInterval(() => { this.explosion.draw() }, 100)
                     this.isOver = true;
+
                     // noLoop()
                 }
                 return false;
             } else { return true }
         })
-        if (game.spaceship.isExtracted) {
+        if (this.beam.isBeamOn) {
             this.beam.draw()
             // add set setTimeout
             game.spaceship.isExtracted = false;
@@ -95,7 +97,6 @@ class Game {
         // game.alien.alienCollision = false;
         if (game.spaceship.isShieldOn) {
             game.shield.draw()
-            game.shield.isShieldDrawn = true;
         }
 
         console.log(game.alien.alienCollision)
@@ -105,7 +106,7 @@ class Game {
         }
         if (game.alien.alienCollision) {
             game.alien.alienCollision = false;
-            this.explosion.draw()
+            setInterval(() => { this.explosion.draw() }, 100)
             this.isOver = true;
         }
         // console.log(game.alien.alienCollision)
@@ -175,10 +176,11 @@ class Planet {
 class Beam {
     constructor() {
         this.image;
-        this.width = 50;
-        this.height = 70;
+        this.width = 80;
+        this.height = 60;
         this.x = 275 - this.width / 2
-        this.y = 400 - this.height / 8
+        this.y = 480
+        this.isBeamOn = false;
     }
     draw() {
         image(this.image, this.x, this.y, this.width, this.height)
@@ -220,19 +222,14 @@ class Alien {
 class Shield {
     constructor() {
         this.shieldImage
-        this.noShieldImage
+        // this.noShieldImage
         this.width = 200;
         this.height = 200;
         this.x = 250 - this.width / 2 + 25
         this.y = 410;
     }
     draw() {
-        if (!game.spaceship.isShieldimage) {
-            image(this.shieldImage, this.x, this.y, this.width, this.height)
-        }
-        else {
-            image(this.noShieldImage, this.x, this.y, this.width, this.height)
-        }
+        image(this.shieldImage, this.x, this.y, this.width, this.height)
     }
 }
 class Explosion {

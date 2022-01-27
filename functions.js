@@ -1,11 +1,12 @@
 const game = new Game()
-let timer = 2
+// let timer = 2
 let font;
 let mode;
 let stage = 0
 let instructionsFont;
-let backgroundSound
-
+let backgroundSound;
+let switchColorSound;
+let shieldSound;
 // stage 0 = splash screen
 //  stage 1 = game screen
 // stage 2 = lose screen
@@ -16,12 +17,15 @@ function setup() {
     // setInterval(game.shield.draw(), 2000)
     font = loadFont('assets/tarrget-font/Tarrget3DItalic-LdKg.otf')
     instructionsFont = loadFont('assets/Source_Sans_Pro/SourceSansPro-ExtraLight.ttf')
+    // resetGame()
 
 }
 function preload() {
     game.preload()
     soundFormats('mp3', 'ogg');
     backgroundSound = loadSound('assets/Sound/boss.ogg')
+    switchColorSound = loadSound('assets/Sound/sci_fi_door-6451 (mp3cut.net).mp3')
+    shieldSound = loadSound('assets/Sound/lightsaber-1-14787 (mp3cut.net).mp3')
 }
 function draw() {
     if (stage == 0) {
@@ -33,6 +37,8 @@ function draw() {
     if (stage == 2) {
         loseMode();
     }
+
+
 
 }
 
@@ -98,6 +104,8 @@ function gameMode() {
 
 
 
+
+
 }
 
 // Gameover Screen
@@ -126,7 +134,7 @@ function loseMode() { // appearance
     fill('white')
     stroke('orange')
     text(score, width / 2, 360)
-
+    backgroundSound.stop()
 
 }
 
@@ -135,6 +143,12 @@ function keyPressed() {
         // console.log('hi')
         game.spaceship.isBlue = !game.spaceship.isBlue
         game.spaceship.isExtracted = true
+        game.beam.isBeamOn = true;
+        setTimeout(() => {
+            game.beam.isBeamOn = false;
+        }, 250)
+
+
     }
     if (keyIsDown(83)) {
         // setInterval
@@ -145,8 +159,27 @@ function keyPressed() {
     }
     if (keyCode === 13) {
         stage = 1
+        backgroundSound.setVolume(0.15)
         backgroundSound.play()
     }
+
+    if (keyCode === 32 && stage == 1) {
+        switchColorSound.setVolume(0.15)
+        switchColorSound.play()
+    }
+    if (keyIsDown(83) && stage == 1) {
+        shieldSound.setVolume(0.2)
+        shieldSound.play()
+    }
+    // reset sketch
+    // if (keyCode === 82) {
+    //     loop()
+    //     setup()
+    //     // stage = 0
+
+    // }
+
+
 }
 // function deactivateShield() {
 //     if (keyIsDown(83)) {
@@ -157,13 +190,22 @@ function keyPressed() {
 //     if (keyCode === 83)
 //         loop()
 // }
-function timeIt() {
-    if (frameCount % 60 == 0 && timer > 0) {
-        timer--;
-    }
-    if (timer == 0) {
-        game.spaceship.isShieldOn = false;
-    }
-}
+// function timeIt() {
+//     if (frameCount % 60 == 0 && timer > 0) {
+//         timer--;
+//     }
+//     if (timer == 0) {
+//         game.spaceship.isShieldOn = false;
+//     }
+// }
 
 // Splash Screen
+
+
+// function resetGame() {
+//     clear()
+//     score = 0
+//     stage = 0
+//     backgroundSound.stop()
+//
+// }
