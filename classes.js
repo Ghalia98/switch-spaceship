@@ -15,21 +15,24 @@ class Game {
         this.planetArr = []
         this.alienArr = [];
         this.score = 0
+        this.isOver = false;
+
     }
     setup() {
     }
     preload() {
         this.background.image = loadImage('assets/Background/Starfield 7 - 1024x1024.png')
-        this.planet.planetImage = [{ src: loadImage('assets/Obstacles/Mars_Planet.png'), color: 'red' },
-        { src: loadImage('assets/Obstacles/blue-ball.png '), color: 'blue' }]
-        this.spaceship.redImage = loadImage('assets/Spaceship assets/Spaceship_02_RED.png')
-        this.spaceship.blueImage = loadImage('assets/Spaceship assets/Spaceship_02_NAVY BLUE.png')
+        this.planet.planetImage = [{ src: loadImage('assets/Obstacles/orange_ball_01.png'), color: 'orange' },
+        { src: loadImage('assets/Obstacles/blue_ball_01.png '), color: 'blue' }]
+        this.spaceship.orangeImage = loadImage('assets/Spaceship assets/Spaceship_02_ORANGE.png')
+        this.spaceship.blueImage = loadImage('assets/Spaceship assets//Spaceship_02_BLUE.png')
         this.beam.image = loadImage('assets/Spaceship assets/07.png')
         // this.flame.image = loadImage('assets/bar/Flame_01.png')
         this.alien.image = [loadImage('assets/Obstacles/animated-ufo-image-0001.gif')]
         this.shield.shieldImage = loadImage('assets/Spaceship assets/spr_shield.png')
         this.noShieldImage = loadImage('assets/Spaceship assets/HD_transparent_picture.png')
         this.explosion.image = loadImage('assets/Spaceship assets/i_0012.png')
+
     }
     draw() {
         clear()
@@ -53,13 +56,15 @@ class Game {
                 if (game.planet.planetImage[index].color === 'blue' && game.spaceship.isBlue) {
                     score++;
 
-                } else if (game.planet.planetImage[index].color === 'red' && !game.spaceship.isBlue) {
+                } else if (game.planet.planetImage[index].color === 'orange' && !game.spaceship.isBlue) {
                     score++;
 
                 }
                 else {
-                    game.explosion.draw()
-                    noLoop()
+                    this.explosion.draw()
+
+                    this.isOver = true;
+                    // noLoop()
                 }
                 return false;
             } else { return true }
@@ -100,8 +105,8 @@ class Game {
         }
         if (game.alien.alienCollision) {
             game.alien.alienCollision = false;
-            game.explosion.draw()
-            noLoop();
+            this.explosion.draw()
+            this.isOver = true;
         }
         // console.log(game.alien.alienCollision)
     }
@@ -133,19 +138,20 @@ class Spaceship {
     constructor() {
         this.width = 220;
         this.height = 220;
-        this.redImage;
+        this.orangeImage;
         this.blueImage;
         this.x = 275 - (this.width / 2)
         this.y = 400
         this.isBlue = false;
         this.isExtracted = false;
         this.isShieldOn = false;
+
     }
     draw() {
         if (game.spaceship.isBlue) {
             image(this.blueImage, this.x, this.y, this.width, this.height)
         } else {
-            image(this.redImage, this.x, this.y, this.width, this.height)
+            image(this.orangeImage, this.x, this.y, this.width, this.height)
         }
     }
 }
