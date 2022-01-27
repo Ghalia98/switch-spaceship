@@ -33,7 +33,10 @@ function draw() {
     if (stage == 2) {
         loseMode();
     }
+
 }
+
+// Splash screen
 function splashMode() {
     // appearance
     game.background.draw()
@@ -68,9 +71,11 @@ function splashMode() {
     textSize(25)
     fill('white')
     stroke('#89cff0')
-    text(`Press Spacebar to start the game`, width / 2, 570)
-
+    text(`Press Enter to start the game`, width / 2, 570)
 }
+
+
+// Game screen
 function gameMode() {
     clear();
     game.draw()
@@ -90,9 +95,12 @@ function gameMode() {
         stage = 2
         noLoop()
     }
-    backgroundSound.play()
+
+
 
 }
+
+// Gameover Screen
 function loseMode() { // appearance
     clear();
     game.draw()
@@ -135,8 +143,9 @@ function keyPressed() {
             game.spaceship.isShieldOn = false
         }, 1000)
     }
-    if (keyCode === 32) {
+    if (keyCode === 13) {
         stage = 1
+        backgroundSound.play()
     }
 }
 // function deactivateShield() {
