@@ -158,10 +158,19 @@ function keyPressed() {
         }, 1000)
     }
     if (keyCode === 13) {
-        stage = 1
-        backgroundSound.setVolume(0.15)
-        backgroundSound.play()
+        stage = 1;
+
+        // To prevent background music from starting again when pressing the enter key after the first time
+        if (!game.background.isMusicOn) {
+            backgroundSound.setVolume(0.15)
+            backgroundSound.play()
+            game.background.isMusicOn = true
+        }
     }
+    // if (keyCode === 13 && stage == 1) {
+    //     backgroundSound.setVolume(0.15)
+    //     backgroundSound.play()
+    // }
 
     if (keyCode === 32 && stage == 1) {
         switchColorSound.setVolume(0.15)

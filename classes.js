@@ -118,6 +118,7 @@ class Background {
         this.image;
         this.x = 0
         this.y = 0
+        this.isMusicOn = false;
     }
     draw() {
         if (stage == 1) {
