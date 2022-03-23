@@ -11,7 +11,7 @@ To make it more challenging I added an alien UFO that comes from the side. Press
 **Losing condtions:**
 
 - Colliding with the alien without activating the shield.
-- Color of the spaceship doesn't match the ball's color at touchpoint.
+- Color of the spaceship doesn't match the ball's color at intersection.
 
 ### Technologies Used
 
