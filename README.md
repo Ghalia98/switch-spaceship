@@ -4,9 +4,9 @@ A game I built using the fundamentals of OOP.
 
 ## Description
 
-To play the game: switch the spaceship to match the color of the incoming ball using the spacebar. You have to be fast!
+To play the game: switch the spaceship to match the color of the incoming ball using spacebar. You have to be fast!
 
-To make it more challenging I added an alien UFO that comes from the side. Press S to activate the shield and avoid collosion with the UFO.
+To make it more challenging I added an alien UFO that comes from the side. Press S to activate the shield and avoid collision with the UFO.
 
 **Losing condtions:**
 
