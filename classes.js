@@ -2,6 +2,7 @@ let randomIndex = 0
 let score = 0
 let currentAlienX = 0
 let currentAlienY = 0
+
 // class Game
 class Game {
     constructor() {
@@ -28,7 +29,6 @@ class Game {
         this.spaceship.orangeImage = loadImage('assets/Spaceship assets/Spaceship_02_ORANGE.png')
         this.spaceship.blueImage = loadImage('assets/Spaceship assets//Spaceship_02_BLUE.png')
         this.beam.image = loadImage('assets/Spaceship assets/electric-gif-transparent.gif')
-        // this.flame.image = loadImage('assets/bar/Flame_01.png')
         this.alien.image = [loadImage('assets/Obstacles/animated-ufo-image-0001.gif')]
         this.shield.shieldImage = loadImage('assets/Spaceship assets/spr_shield.png')
         this.noShieldImage = loadImage('assets/Spaceship assets/HD_transparent_picture.png')
@@ -49,6 +49,7 @@ class Game {
             // console.log(randomIndex)
             planet.draw()
         });
+
         // console.log(this.planet.planetImage[0].color)
         // this removes the planets after collision
         this.planetArr = this.planetArr.filter(planet => {
@@ -62,15 +63,13 @@ class Game {
 
                 }
                 else {
-
                     setInterval(() => { this.explosion.draw() }, 100)
                     this.isOver = true;
-
-                    // noLoop()
                 }
                 return false;
             } else { return true }
         })
+
         if (this.beam.isBeamOn) {
             this.beam.draw()
             // add set setTimeout
@@ -91,16 +90,14 @@ class Game {
                 return false;
             } else { return true }
         })
-        // add constraint for shild image 
-        // set timer to remove shield
-        //game.spaceship.isShieldOn = false;
-        // game.alien.alienCollision = false;
+
+
+
         if (game.spaceship.isShieldOn) {
             game.shield.draw()
         }
 
-        console.log(game.alien.alienCollision)
-        // console.log(game.spaceship.isShieldOn)
+
         if (game.spaceship.isShieldOn === false && game.alien.collision(game.shield.x, game.shield.y)) {
             game.alien.alienCollision = true;
         }
@@ -109,9 +106,11 @@ class Game {
             setInterval(() => { this.explosion.draw() }, 100)
             this.isOver = true;
         }
-        // console.log(game.alien.alienCollision)
     }
 }
+
+
+
 // class Background
 class Background {
     constructor() {
@@ -135,7 +134,9 @@ class Background {
         }
     }
 }
-// refactor these two classes together (add parameters)
+
+
+
 class Spaceship {
     constructor() {
         this.width = 220;
@@ -157,6 +158,7 @@ class Spaceship {
         }
     }
 }
+
 // class Planet
 class Planet {
     constructor(image, index) {
@@ -167,13 +169,13 @@ class Planet {
         this.y = 0
         this.planetImage;
         this.index = index
-        // this.planetArr = []; 
     }
     draw() {
         this.y += 5.5;
         image(this.image, this.x, this.y, this.width, this.height)
     }
 }
+
 class Beam {
     constructor() {
         this.image;
@@ -187,6 +189,7 @@ class Beam {
         image(this.image, this.x, this.y, this.width, this.height)
     }
 }
+
 class Alien {
     constructor(image, arr) {
         this.image = image;
@@ -197,6 +200,8 @@ class Alien {
         this.alienCollision = false;
         this.arr = arr
     }
+
+
     draw() {
         this.x++;
         currentAlienX = this.x++
@@ -220,6 +225,8 @@ class Alien {
         currentAlienY -= 10
     }
 }
+
+
 class Shield {
     constructor() {
         this.shieldImage
