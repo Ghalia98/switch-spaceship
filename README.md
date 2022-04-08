@@ -18,3 +18,7 @@ To make it more challenging I added an alien UFO that comes from the side. Press
 ```
 HTML5, CSS3, Canvas, JavaScript, OOP, p5.js
 ```
+
+### Demo
+
+https://ghalia98.github.io/switch-spaceship/
